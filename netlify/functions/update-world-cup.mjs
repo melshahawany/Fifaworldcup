@@ -11,7 +11,7 @@ export default async () => {
   // fixtures by dates between yesterday and tomorrow.
   const today = new Date().toISOString().slice(0, 10);
   const response = await fetch(
-    `${API_URL}/fixtures?league=${WORLD_CUP_LEAGUE_ID}&date=${today}`,
+    `${API_URL}/fixtures?league=${WORLD_CUP_LEAGUE_ID}&season=2026`,
     { headers: { "x-apisports-key": apiKey } },
   );
   const data = await response.json();
