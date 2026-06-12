@@ -1,33 +1,22 @@
 import { getStore } from "@netlify/blobs";
 
-const API_URL = "https://v3.football.api-sports.io";
-const WORLD_CUP_LEAGUE_ID = "1";
-
 export default async () => {
-  const apiKey = Netlify.env.get("API_FOOTBALL_KEY");
-  if (!apiKey) throw new Error("API_FOOTBALL_KEY is not configured in Netlify.");
-
-  // Free API-Football plans cannot query season=2026, but they can query
-  // fixtures by dates between yesterday and tomorrow.
-  const today = new Date().toISOString().slice(0, 10);
-  const response = await fetch(
-    `${API_URL}/fixtures?league=${WORLD_CUP_LEAGUE_ID}&season=2026`,
-    { headers: { "x-apisports-key": apiKey } },
+  const res = await fetch(
+    "https://raw.githubusercontent.com/openfootball/worldcup.json/master/2026--usa/worldcup.json"
   );
-  const data = await response.json();
-
-  if (!response.ok || data.errors?.length || Object.keys(data.errors || {}).length) {
-    throw new Error(`The football data provider returned an error: ${JSON.stringify(data.errors)}`);
-  }
+  if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+  const raw = await res.json();
 
   const store = getStore("world-cup-data");
   await store.setJSON("fixtures", {
     updatedAt: new Date().toISOString(),
-    date: today,
-    fixtures: data.response || [],
+    matches: raw.matches || [],
   });
+
+  return new Response(
+    JSON.stringify({ ok: true, count: (raw.matches || []).length }),
+    { status: 200, headers: { "content-type": "application/json" } }
+  );
 };
 
-export const config = {
-  schedule: "*/15 * * * *",
-};
+export const config = { schedule: "*/15 * * * *" };
