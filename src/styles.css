@@ -1,0 +1,135 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+  background: #0a0f1e;
+}
+
+body {
+  overscroll-behavior-y: none;
+}
+
+button,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+@media (display-mode: standalone) {
+  .top-header {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .app-content {
+    padding-bottom: calc(20px + env(safe-area-inset-bottom)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .header-row {
+    align-items: flex-start !important;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .header-actions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .header-actions button {
+    justify-content: center !important;
+    min-height: 38px;
+  }
+
+  .app-tabs {
+    margin-inline: -20px;
+    padding-inline: 12px;
+    scrollbar-width: none;
+  }
+
+  .app-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .app-tabs button {
+    flex: 0 0 auto;
+    min-height: 44px;
+    padding-inline: 12px !important;
+  }
+
+  .app-content {
+    padding: 16px 12px !important;
+  }
+
+  .match-card {
+    padding: 12px !important;
+  }
+
+  .match-row {
+    align-items: stretch !important;
+    flex-wrap: wrap;
+    gap: 10px !important;
+  }
+
+  .match-teams {
+    min-width: calc(100% - 70px);
+    gap: 5px !important;
+  }
+
+  .match-teams > div:first-child,
+  .match-teams > div:last-child {
+    min-width: 0;
+  }
+
+  .match-teams > div:first-child span:first-child,
+  .match-teams > div:last-child span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .match-meta {
+    align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    gap: 8px;
+    min-width: 100% !important;
+    padding-top: 8px;
+    text-align: start !important;
+  }
+
+  .match-meta a {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .standings-table {
+    overflow-x: auto !important;
+  }
+
+  .standings-table > div {
+    min-width: 620px;
+  }
+}
+
+@media (max-width: 390px) {
+  .header-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .match-teams {
+    min-width: 100%;
+  }
+}
